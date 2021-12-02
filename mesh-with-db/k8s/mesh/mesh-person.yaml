@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: quarkus-person-app-dr
+spec:
+  host: quarkus-person-app
+  subsets:
+    - name: v1
+      labels:
+        app.kubernetes.io/version: v1
+    - name: v2
+      labels:
+        app.kubernetes.io/version: v2
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: quarkus-person-app-vs-via-gw
+spec:
+  hosts:
+    - quarkus-person-app.apps.qyt1tahi.eastus.aroapp.io
+  gateways:
+    - microservices-gateway
+  http:
+    - match:
+      - uri:
+          prefix: "/person"
+      rewrite:
+        uri: " "
+      route:
+        - destination:
+            host: quarkus-person-app
+            subset: v1
+          weight: 100
+        - destination:
+            host: quarkus-person-app
+            subset: v2
+          weight: 0
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: quarkus-person-app-vs
+spec:
+  hosts:
+    - quarkus-person-app
+  http:
+    - route:
+        - destination:
+            host: quarkus-person-app
+            subset: v1
+          weight: 100
+        - destination:
+            host: quarkus-person-app
+            subset: v2
+          weight: 0

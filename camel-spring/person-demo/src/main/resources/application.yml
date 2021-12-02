@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: person-service
+  datasource:
+    url: jdbc:oracle:thin:@ccbdb.oracle:1521/ORCLPDB1
+    username: camel
+    password: qw21QW@!
+
+spring.liquibase.change-log: classpath:db/changeLog.sql
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint.health:
+    show-details: always
+
+hawtio.authenticationEnabled: false
+camel.springboot.jmx-enabled: true
