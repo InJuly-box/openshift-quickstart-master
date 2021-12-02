@@ -7,7 +7,7 @@ spec:
     - name: git-clone
       params:
         - name: url
-          value: 'https://github.com/piomin/sample-spring-kotlin-microservice.git'
+          value: 'https://github.com/InJuly-box/sample-spring-kotlin-microservice-master.git'
         - name: revision
           value: master
       taskRef:
